@@ -104,8 +104,8 @@ claimers, increase the settle window accordingly.
 ## Command reference
 
 ```
-pm init                      Create the pm:* labels in the repo.
-pm create "Title" [--body B] [--priority 0-3] [--label L ...]
+pm init                      Create the pm:* and area:* labels in the repo.
+pm create "Title" [--body B] [--priority 0-3] [--area frontend|backend|both] [--label L ...]
 pm list [--status open|in-progress|blocked|done]
 pm status                    Alias for list.
 pm next                      Show the next claimable ticket (no claim).
@@ -116,6 +116,9 @@ pm block N "reason"          Move ticket to blocked.
 pm unblock N                 Return a blocked ticket to open.
 pm release N ["reason"]      Give up an in-progress ticket -> open.
 pm done N ["summary"]        Mark done and close the issue.
+pm area N frontend|backend|both
+                              Flag whether a ticket touches the front-end,
+                              back-end, or both.
 ```
 
 Global: `-R owner/repo` (or `$PM_REPO`), `--agent name` (or `$PM_AGENT`).

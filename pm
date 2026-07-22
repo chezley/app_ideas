@@ -24,6 +24,9 @@ Commands:
   pm done N ["summary"]      Mark a ticket done and close the issue.
   pm release N ["reason"]    Give up an in-progress ticket, back to open.
   pm show N                  Print full ticket detail + history.
+  pm area N frontend|backend|both
+                             Flag whether a ticket touches the front-end,
+                             back-end, or both.
 
 Global options:
   -R, --repo OWNER/REPO      Target repo (default: repo of current directory,
@@ -62,6 +65,13 @@ STATUS_LABELS = [S_OPEN, S_INPROGRESS, S_BLOCKED, S_DONE]
 # Priority labels. Lower number = higher priority; claimed first.
 PRIORITIES = [f"{PREFIX}:p0", f"{PREFIX}:p1", f"{PREFIX}:p2", f"{PREFIX}:p3"]
 
+# Area labels. Mutually exclusive, flag whether a ticket touches the
+# front-end (UI/client), the back-end (data/services/server), or both.
+AREA_FRONTEND = "area:frontend"
+AREA_BACKEND = "area:backend"
+AREA_BOTH = "area:both"
+AREA_LABELS = [AREA_FRONTEND, AREA_BACKEND, AREA_BOTH]
+
 # Structured comment markers (machine-readable, greppable, human-visible).
 CLAIM_MARK = f"{PREFIX}-claim"     # a claim attempt (part of the claim race)
 OWNER_MARK = f"{PREFIX}-owner"     # the confirmed owner after winning a claim
@@ -76,6 +86,9 @@ LABEL_DEFS = [
     (PRIORITIES[1], "8250df", "Priority 1"),
     (PRIORITIES[2], "a371f7", "Priority 2"),
     (PRIORITIES[3], "d2b3ff", "Priority 3 - lowest"),
+    (AREA_FRONTEND, "c5def5", "Touches the front-end (UI/client)"),
+    (AREA_BACKEND, "bfd4f2", "Touches the back-end (data/services/server)"),
+    (AREA_BOTH, "9bc0e8", "Touches both the front-end and back-end"),
 ]
 
 
@@ -216,6 +229,15 @@ def set_status(repo, number, new_status):
     run_gh(args, repo=repo)
 
 
+def set_area(repo, number, area):
+    """Ensure exactly `area` among the area labels is present."""
+    remove = [a for a in AREA_LABELS if a != area]
+    args = ["issue", "edit", str(number), "--add-label", area]
+    for r in remove:
+        args += ["--remove-label", r]
+    run_gh(args, repo=repo)
+
+
 def add_comment(repo, number, body):
     run_gh(["issue", "comment", str(number), "--body", body], repo=repo)
 
@@ -243,6 +265,8 @@ def cmd_create(args):
     labels = [S_OPEN]
     if args.priority is not None:
         labels.append(f"{PREFIX}:p{args.priority}")
+    if args.area:
+        labels.append(f"area:{args.area}")
     for lb in (args.label or []):
         labels.append(lb)
     cmd = ["issue", "create", "--title", args.title,
@@ -271,10 +295,16 @@ def _board(repo):
     return buckets, done
 
 
+AREA_TAGS = {AREA_FRONTEND: "FE", AREA_BACKEND: "BE", AREA_BOTH: "FE+BE"}
+
+
 def _fmt_line(repo, i, with_owner=False):
     names = issue_label_names(i)
     prio = next((p.split(":")[1] for p in PRIORITIES if p in names), "--")
-    line = f"  #{i['number']:<5} [{prio}] {i['title']}"
+    area = next((AREA_TAGS[a] for a in AREA_LABELS if a in names), None)
+    line = f"  #{i['number']:<5} [{prio}]"
+    line += f" [{area}]" if area else " [--]"
+    line += f" {i['title']}"
     if with_owner:
         owner = current_owner(repo, i["number"])
         if owner:
@@ -480,6 +510,13 @@ def cmd_done(args):
     print(f"#{args.number} -> done (closed).")
 
 
+def cmd_area(args):
+    repo = detect_repo(args.repo)
+    area = f"area:{args.area}"
+    set_area(repo, args.number, area)
+    print(f"#{args.number} -> area:{args.area}.")
+
+
 def cmd_show(args):
     repo = detect_repo(args.repo)
     n = args.number
@@ -488,9 +525,10 @@ def cmd_show(args):
     m = json.loads(meta)
     names = [l["name"] for l in m["labels"]]
     status = next((s for s in STATUS_LABELS if s in names), "(no status)")
+    area = next((a.split(":")[1] for a in AREA_LABELS if a in names), "(unset)")
     owner = current_owner(repo, n) or "-"
     print(f"#{m['number']}  {m['title']}")
-    print(f"status: {status}   owner: @{owner}   state: {m['state']}")
+    print(f"status: {status}   area: {area}   owner: @{owner}   state: {m['state']}")
     print(f"url: {m['url']}")
     print(f"labels: {', '.join(names) or '-'}")
     print("\n--- body ---")
@@ -524,6 +562,8 @@ def build_parser():
     sp.add_argument("title")
     sp.add_argument("--body", help="ticket description")
     sp.add_argument("--priority", type=int, choices=[0, 1, 2, 3], help="priority 0(high)-3(low)")
+    sp.add_argument("--area", choices=["frontend", "backend", "both"],
+                    help="does this ticket touch the front-end, back-end, or both?")
     sp.add_argument("--label", action="append", help="extra label (repeatable)")
     sp.set_defaults(func=cmd_create)
 
@@ -571,6 +611,11 @@ def build_parser():
     sp = sub.add_parser("show", help="print full ticket detail + history")
     sp.add_argument("number")
     sp.set_defaults(func=cmd_show)
+
+    sp = sub.add_parser("area", help="flag whether a ticket touches front-end, back-end, or both")
+    sp.add_argument("number")
+    sp.add_argument("area", choices=["frontend", "backend", "both"])
+    sp.set_defaults(func=cmd_area)
 
     return p
 
