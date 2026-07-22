@@ -4,8 +4,9 @@ A mobile app for One Piece Card Game collectors: track what you own, build
 and validate decks, browse the full card catalog, and keep an eye on the
 market value of your collection.
 
-> **Status:** early planning / pre-development. No app code exists in this
-> repository yet — this README describes the product as it's being scoped.
+> **Status:** early development. The iOS app has a SwiftUI navigation shell
+> scaffolded in `OnePieceTCG/` (see below); everything else on this page is
+> still the product plan guiding what gets built next.
 
 ## Platform
 
@@ -38,13 +39,12 @@ Native mobile:
 
 ## Getting started
 
-Not yet available — project scaffolding hasn't been created. This section
-will cover build/run instructions for both the iOS and Android clients once
-development starts.
+The iOS shell lives in `OnePieceTCG/` — see [`OnePieceTCG/README.md`](OnePieceTCG/README.md)
+for build/run/test instructions. The Android client hasn't been scaffolded yet.
 
 ## Roadmap
 
-1. Scaffold iOS and Android projects.
+1. ~~Scaffold iOS project.~~ Scaffold Android project.
 2. Integrate a card-database source and seed the local card catalog.
 3. Ship collection tracking (v1).
 4. Add deck building + deck validation.
