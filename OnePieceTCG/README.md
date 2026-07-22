@@ -1,14 +1,20 @@
 # OnePieceTCG
 
-SwiftUI iOS app (iOS 17+) for logging a One Piece TCG collection. This ticket
-only scaffolds the project shell — no data/persistence yet (see #3).
+SwiftUI iOS app (iOS 17+) for logging a One Piece TCG collection.
 
 ## Structure
 
 - `project.yml` — [XcodeGen](https://github.com/yonaskolb/XcodeGen) spec; the
   source of truth for the project. `OnePieceTCG.xcodeproj` is generated from
   it and committed so the project builds without XcodeGen installed.
-- `OnePieceTCG/` — app sources (`App/`, `Views/`, `Assets.xcassets`).
+- `OnePieceTCG/` — app sources:
+  - `App/` — app entry point, attaches the SwiftData `ModelContainer`.
+  - `Views/` — tab screens.
+  - `Models/` — SwiftData models: `Card`, `CardSet`, `OwnedCard`, `CardCondition`.
+  - `Persistence/` — `PersistenceController` (builds the `ModelContainer`)
+    and `CardRepository` (the API views use to read/write owned cards —
+    never touch SwiftData directly from a view).
+  - `Assets.xcassets`.
 - `OnePieceTCGTests/` — unit test target.
 
 If you change `project.yml`, regenerate the project:
