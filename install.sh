@@ -45,6 +45,6 @@ echo "==> Creating pm labels in the target repo"
 
 echo
 echo "Done. Try:"
-echo "  pm create \"My first ticket\" --priority 1"
+echo "  pm create \"My first ticket\" --priority 1 --area backend"
 echo "  pm list"
 echo "  pm claim"

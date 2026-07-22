@@ -13,7 +13,8 @@ authenticated (`gh auth login`).
 
 Commands:
   pm init                    Create the required labels in the repo.
-  pm create "Title" [opts]   Open a new ticket (defaults to pm:open).
+  pm create "Title" --area frontend|backend|both [opts]
+                              Open a new ticket (defaults to pm:open).
   pm list [--status S]       Show the board (open / in-progress / blocked / done).
   pm status                  Alias for `pm list` with a summary header.
   pm next                    Show the next claimable ticket (does NOT claim).
@@ -562,8 +563,8 @@ def build_parser():
     sp.add_argument("title")
     sp.add_argument("--body", help="ticket description")
     sp.add_argument("--priority", type=int, choices=[0, 1, 2, 3], help="priority 0(high)-3(low)")
-    sp.add_argument("--area", choices=["frontend", "backend", "both"],
-                    help="does this ticket touch the front-end, back-end, or both?")
+    sp.add_argument("--area", required=True, choices=["frontend", "backend", "both"],
+                    help="required: does this ticket touch the front-end, back-end, or both?")
     sp.add_argument("--label", action="append", help="extra label (repeatable)")
     sp.set_defaults(func=cmd_create)
 

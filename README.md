@@ -51,9 +51,9 @@ pm -R owner/repo init        # create the pm:* labels once per repo
 ## Everyday use (a human seeding work)
 
 ```bash
-pm create "Add rate limiting to the API" --priority 1 \
+pm create "Add rate limiting to the API" --priority 1 --area backend \
   --body "Cap at 100 req/min per token. Return 429 with Retry-After."
-pm create "Fix flaky login test" --priority 0
+pm create "Fix flaky login test" --priority 0 --area backend
 pm list                      # see the board
 ```
 
@@ -105,7 +105,7 @@ claimers, increase the settle window accordingly.
 
 ```
 pm init                      Create the pm:* and area:* labels in the repo.
-pm create "Title" [--body B] [--priority 0-3] [--area frontend|backend|both] [--label L ...]
+pm create "Title" --area frontend|backend|both [--body B] [--priority 0-3] [--label L ...]
 pm list [--status open|in-progress|blocked|done]
 pm status                    Alias for list.
 pm next                      Show the next claimable ticket (no claim).
@@ -137,6 +137,8 @@ race — useful for `while pm claim; do ...; done` loops) · `1` error.
 
 - `PM_LABEL_PREFIX` changes the label namespace (default `pm`). Set it before
   `pm init` and keep it consistent.
-- Add your own extra labels with `pm create --label area:backend` — they ride
-  alongside the `pm:*` state labels without interfering.
+- Every ticket must declare `--area frontend|backend|both` at creation time —
+  it's a required flag, not optional. Use `pm area N <value>` to change it later.
+- Add your own extra labels with `pm create --label some-label` — they ride
+  alongside the `pm:*`/`area:*` labels without interfering.
 ```

@@ -40,6 +40,11 @@ unique name per agent). `$PM_REPO` selects the repo.
   `pm release <N> "reason"` so another agent can take it.
 - Respect ownership shown by `pm show`. Someone else's ticket is off-limits.
 - Always `pm log` before you pause, block, or release, so no context is lost.
+- Every ticket you create with `pm create` **must** pass
+  `--area frontend|backend|both` — it is a required flag (the CLI rejects the
+  command without it) so the board always shows whether a ticket is UI/client
+  work, data/service work, or both. If a ticket's area changes later, fix it
+  with `pm area N <frontend|backend|both>` rather than leaving it stale.
 
 ### Command cheat-sheet
 
@@ -47,4 +52,5 @@ unique name per agent). `$PM_REPO` selects the repo.
 pm list                     pm claim [N]           pm show N
 pm next                     pm log N "message"     pm done N "summary"
 pm block N "reason"         pm unblock N           pm release N ["reason"]
+pm create "Title" --area frontend|backend|both      pm area N <area>
 ```
