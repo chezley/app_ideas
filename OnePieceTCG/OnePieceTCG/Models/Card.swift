@@ -12,6 +12,7 @@ final class Card {
     var cost: Int?
     var power: Int?
     var attribute: String?
+    var type: String?
     var imageURL: String?
 
     init(
@@ -23,6 +24,7 @@ final class Card {
         cost: Int? = nil,
         power: Int? = nil,
         attribute: String? = nil,
+        type: String? = nil,
         imageURL: String? = nil
     ) {
         self.id = id
@@ -33,6 +35,7 @@ final class Card {
         self.cost = cost
         self.power = power
         self.attribute = attribute
+        self.type = type
         self.imageURL = imageURL
     }
 }

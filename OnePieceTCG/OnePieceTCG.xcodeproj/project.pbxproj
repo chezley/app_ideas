@@ -22,6 +22,9 @@
 		BF708167893B55C838237039 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F3896785CE3DB1177CD4D1 /* PersistenceController.swift */; };
 		7FF67849549DEE6D8CFE0B9A /* CardRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD5E5B427B573D66E9C32E /* CardRepository.swift */; };
 		33489B3BABD0B039D4536FBB /* CardRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A070D51392BCEA657AB8DC6 /* CardRepositoryTests.swift */; };
+		B7AF88CDE32A463891F368DE /* CatalogLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD6F68EC9D64905AB4A1F76 /* CatalogLoader.swift */; };
+		506F73FB8A914276A1FB88B7 /* OP01.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D7CA59F3A884FC8A6331C0E /* OP01.json */; };
+		41567F52D9B94B3A9BE6FFB0 /* CatalogLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C67300142D464D86EC004F /* CatalogLoaderTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +55,9 @@
 		11F3896785CE3DB1177CD4D1 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		F3BD5E5B427B573D66E9C32E /* CardRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRepository.swift; sourceTree = "<group>"; };
 		9A070D51392BCEA657AB8DC6 /* CardRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRepositoryTests.swift; sourceTree = "<group>"; };
+		ADD6F68EC9D64905AB4A1F76 /* CatalogLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogLoader.swift; sourceTree = "<group>"; };
+		4D7CA59F3A884FC8A6331C0E /* OP01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OP01.json; sourceTree = "<group>"; };
+		67C67300142D464D86EC004F /* CatalogLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogLoaderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -95,6 +101,15 @@
 			path = Persistence;
 			sourceTree = "<group>";
 		};
+		E0D944D5C0434E34A18B4AA5 /* Catalog */ = {
+			isa = PBXGroup;
+			children = (
+				ADD6F68EC9D64905AB4A1F76 /* CatalogLoader.swift */,
+				4D7CA59F3A884FC8A6331C0E /* OP01.json */,
+			);
+			path = Catalog;
+			sourceTree = "<group>";
+		};
 		82D6550C8CA0E0B64A35ED3E = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +127,7 @@
 				7D255C807E2EED808270ABC9 /* Views */,
 				58B4D179357288ECC2F56568 /* Models */,
 				5CC7E8197A0D04EFC58ACB89 /* Persistence */,
+				E0D944D5C0434E34A18B4AA5 /* Catalog */,
 			);
 			path = OnePieceTCG;
 			sourceTree = "<group>";
@@ -121,6 +137,7 @@
 			children = (
 				052369A9DE63186ECC4C3156 /* OnePieceTCGTests.swift */,
 				9A070D51392BCEA657AB8DC6 /* CardRepositoryTests.swift */,
+				67C67300142D464D86EC004F /* CatalogLoaderTests.swift */,
 			);
 			path = OnePieceTCGTests;
 			sourceTree = "<group>";
@@ -213,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4226F4E4044AEC2E24679A5E /* Assets.xcassets in Resources */,
+				506F73FB8A914276A1FB88B7 /* OP01.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +243,7 @@
 			files = (
 				957D2DD56D2ABE90BB652B9B /* OnePieceTCGTests.swift in Sources */,
 				33489B3BABD0B039D4536FBB /* CardRepositoryTests.swift in Sources */,
+				41567F52D9B94B3A9BE6FFB0 /* CatalogLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +263,7 @@
 				5941AE0E1BF479F2CDBF7A45 /* OwnedCard.swift in Sources */,
 				BF708167893B55C838237039 /* PersistenceController.swift in Sources */,
 				7FF67849549DEE6D8CFE0B9A /* CardRepository.swift in Sources */,
+				B7AF88CDE32A463891F368DE /* CatalogLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
